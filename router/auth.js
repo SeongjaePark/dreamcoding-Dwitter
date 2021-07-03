@@ -21,6 +21,11 @@ const validateSignup = [
   ...validateCredential,
   body('name').trim().notEmpty().withMessage('이름을 입력하세요'),
   body('email').trim().isEmail().withMessage('올바른 이메일 주소를 입력하세요'),
+  body('url')
+    .trim()
+    .isURL()
+    .withMessage('올바른 URL을 입력해주세요')
+    .optional({ nullable: true, checkFalsy: true }),
   validate,
 ]
 
