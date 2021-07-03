@@ -26,4 +26,17 @@ router.post(
   authContoller.signup
 )
 
+router.post(
+  '/login',
+  [
+    body('username')
+      .trim()
+      .notEmpty()
+      .withMessage('사용자 이름(아이디)를 입력하세요'),
+    body('password').trim().notEmpty().withMessage('패스워드를 입력하세요'),
+  ],
+  validate,
+  authContoller.login
+)
+
 export default router
