@@ -6,6 +6,13 @@ const secret = 'q3CoYoF9jAgwomxhH2DINYHJHASEmYsQ'
 
 export async function signup(req, res) {
   const body = req.body
+  const username = body.username
+  const found = await userRepository.findByUsername(username)
+  if (found) {
+    return res
+      .status(409)
+      .json({ message: `usename '${username}' already exists` })
+  }
   const userInfo = { ...body, password: await bcrypt.hash(body.password, 10) }
   const result = await userRepository.create(userInfo)
   const { password, ...user } = { ...result }
