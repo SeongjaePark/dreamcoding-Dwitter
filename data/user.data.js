@@ -9,7 +9,7 @@ export async function create(userInfo) {
   return user
 }
 
-export async function findOne(username) {
+export async function findByUsername(username) {
   const user = users.find((u) => u.username === username)
   return user
 }

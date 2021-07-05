@@ -14,7 +14,7 @@ export async function signup(req, res) {
 
 export async function login(req, res) {
   const username = req.body.username
-  const user = await userRepository.findOne(username)
+  const user = await userRepository.findByUsername(username)
   if (user == null) {
     res
       .status(404)
