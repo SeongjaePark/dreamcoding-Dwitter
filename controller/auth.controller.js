@@ -24,12 +24,12 @@ export async function login(req, res) {
   const user = await userRepository.findByUsername(username)
   if (user == null) {
     res
-      .status(404)
-      .send({ message: `${username}이라는 이름의 사용자가 존재하지 않습니다` })
+      .status(401)
+      .send({ message: `유효하지 않은 사용자 이름 또는 비밀번호입니다.` })
   }
   const result = await bcrypt.compare(req.body.password, user.password)
   if (result === false) {
-    res.status(400).send('유효하지 않은 비밀번호입니다')
+    res.status(401).send('유효하지 않은 사용자 이름 또는 비밀번호입니다.')
   }
   const token = jwt.sign({ sub: user.id, username: user.username }, secret)
   res.status(200).send({ token })
