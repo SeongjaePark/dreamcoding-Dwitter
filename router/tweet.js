@@ -2,13 +2,15 @@ import express from 'express'
 import { body, param } from 'express-validator'
 import { validate } from '../middleware/validator.js'
 import * as tweetController from '../controller/tweet.controller.js'
+import { isAuth } from '../middleware/auth.js'
 
 const router = express.Router()
 
 router
-  .get('/', tweetController.getTweets)
+  .get('/', isAuth, tweetController.getTweets)
   .post(
     '/',
+    isAuth,
     [
       body('text')
         .trim()
@@ -30,6 +32,7 @@ router
 router
   .get(
     '/:id',
+    isAuth,
     [
       param('id')
         .trim()
@@ -41,6 +44,7 @@ router
   )
   .patch(
     '/:id',
+    isAuth,
     [
       param('id')
         .trim()
@@ -56,6 +60,7 @@ router
   )
   .delete(
     '/:id',
+    isAuth,
     [
       param('id')
         .trim()
