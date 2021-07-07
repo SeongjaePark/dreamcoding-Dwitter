@@ -13,3 +13,8 @@ export async function findByUsername(username) {
   const user = users.find((u) => u.username === username)
   return user
 }
+
+export async function findById(id) {
+  const user = users.find((u) => u.id === id)
+  return user
+}
