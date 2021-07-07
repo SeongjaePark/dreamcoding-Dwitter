@@ -14,9 +14,9 @@ export async function signup(req, res) {
       .json({ message: `usename '${username}' already exists` })
   }
   const userInfo = { ...body, password: await bcrypt.hash(body.password, 10) }
-  const result = await userRepository.create(userInfo)
-  const { password, ...user } = { ...result }
-  res.status(201).send(user)
+  const user = await userRepository.create(userInfo)
+  const token = createJwt(user)
+  res.status(201).send({ token })
 }
 
 export async function login(req, res) {
@@ -31,6 +31,10 @@ export async function login(req, res) {
   if (result === false) {
     res.status(401).send('유효하지 않은 사용자 이름 또는 비밀번호입니다.')
   }
-  const token = jwt.sign({ sub: user.id, username: user.username }, secret)
+  const token = createJwt(user)
   res.status(200).send({ token })
+}
+
+function createJwt(user) {
+  return jwt.sign({ sub: user.id, username: user.username }, secret)
 }
