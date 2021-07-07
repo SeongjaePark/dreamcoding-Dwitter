@@ -36,5 +36,7 @@ export async function login(req, res) {
 }
 
 function createJwt(user) {
-  return jwt.sign({ sub: user.id, username: user.username }, secret)
+  return jwt.sign({ sub: user.id, username: user.username }, secret, {
+    expiresIn: '2h',
+  })
 }
