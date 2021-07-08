@@ -16,14 +16,6 @@ router
         .trim()
         .isLength({ min: 3 })
         .withMessage('적어도 3자 이상 입력해야 합니다.'),
-      body('name')
-        .trim()
-        .notEmpty()
-        .withMessage('작성자의 이름이 있어야 합니다.'),
-      body('username')
-        .trim()
-        .notEmpty()
-        .withMessage('사용자 이름이 있어야 합니다.'),
       validate,
     ],
     tweetController.createTweet

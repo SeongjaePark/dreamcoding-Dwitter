@@ -9,20 +9,11 @@ export async function getTweets(req, res) {
 }
 
 export async function createTweet(req, res) {
-  const { text, name, username } = req.body
-  if (!text || !name || !username) {
+  const { text } = req.body
+  if (!text) {
     res.sendStatus(400)
   }
-  const tweet = {
-    id: await tweetRepository.getUniqueId(),
-    text,
-    createdAt: Date.now().toString(),
-    updatedAt: Date.now().toString(),
-    name,
-    username,
-    url: req.body.url,
-  }
-  await tweetRepository.create(tweet)
+  const tweet = await tweetRepository.create(text, req.userId)
   res.status(201).send(tweet)
 }
 

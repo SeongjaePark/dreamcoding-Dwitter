@@ -1,21 +1,19 @@
+import * as userRepository from './user.data.js'
+
 const tweets = [
   {
     id: 1,
     text: '숭재 화이팅!!',
     createdAt: Date.now().toString(),
     updatedAt: Date.now().toString(),
-    name: 'Bob',
-    username: 'bob',
-    url: 'https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-1.png',
+    userId: 1,
   },
   {
     id: 2,
     text: '드림코더 화이팅!!',
     createdAt: Date.now().toString(),
     updatedAt: Date.now().toString(),
-    name: 'Ellie',
-    username: 'ellie',
-    url: 'https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-1.png',
+    userId: 2,
   },
 ]
 
@@ -25,25 +23,47 @@ export async function getUniqueId() {
   return uniqueId
 }
 
-export async function increaseUniqueId() {
+function increaseUniqueId() {
   uniqueId++
 }
 
 export async function getAll() {
-  return tweets
+  return await Promise.all(
+    tweets.map(async (tweet) => {
+      const { username, name, url } = await userRepository.findById(
+        tweet.userId
+      )
+      return { ...tweet, username, name, url }
+    })
+  )
 }
 
 export async function getAllByUsername(username) {
-  return tweets.filter((t) => t.username === username)
+  const tweets = await getAll()
+  return tweets.filter((tweet) => tweet.username === username)
 }
 
 export async function getById(id) {
-  return tweets.find((t) => t.id === id)
+  const tweet = tweets.find((t) => t.id === id)
+  if (!tweet) {
+    return null
+  }
+  const { username, name, url } = await userRepository.findById(tweet.userId)
+  return { ...tweet, username, name, url }
 }
 
-export async function create(tweet) {
+export async function create(text, userId) {
+  const tweet = {
+    id: await getUniqueId(),
+    text,
+    createdAt: Date.now().toString(),
+    updatedAt: Date.now().toString(),
+    userId,
+  }
   tweets.push(tweet)
   increaseUniqueId()
+  const { username, name, url } = await userRepository.findById(userId)
+  return { ...tweet, username, name, url }
 }
 
 export async function remove(id) {
