@@ -16,7 +16,7 @@ export async function signup(req, res) {
   const userInfo = { ...body, password: await bcrypt.hash(body.password, 10) }
   const user = await userRepository.create(userInfo)
   const token = createJwt(user)
-  res.status(201).send({ token })
+  res.status(201).send({ token, username: user.username })
 }
 
 export async function login(req, res) {
@@ -32,11 +32,11 @@ export async function login(req, res) {
     res.status(401).send('유효하지 않은 사용자 이름 또는 비밀번호입니다.')
   }
   const token = createJwt(user)
-  res.status(200).send({ token })
+  res.status(200).send({ token, username: user.username })
 }
 
 function createJwt(user) {
-  return jwt.sign({ sub: user.id, username: user.username }, secret, {
+  return jwt.sign({ sub: user.id }, secret, {
     expiresIn: '2h',
   })
 }
@@ -46,5 +46,5 @@ export async function me(req, res, next) {
   if (!user) {
     return res.status(404).json({ message: 'user not found' })
   }
-  res.status(200).json({ token: req.token })
+  res.status(200).json({ token: req.token, username: user.username })
 }
