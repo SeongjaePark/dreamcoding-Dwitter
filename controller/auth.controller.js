@@ -1,8 +1,10 @@
 import * as bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import * as userRepository from '../data/user.data.js'
+import dotenv from 'dotenv'
+dotenv.config()
 
-const secret = 'q3CoYoF9jAgwomxhH2DINYHJHASEmYsQ'
+const secret = process.env.JWT_SECRET
 
 export async function signup(req, res) {
   const body = req.body
