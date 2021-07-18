@@ -1,14 +1,15 @@
 const users = [
   {
     username: 'bob',
-    password: '$2b$10$62f8UNj4knYmR95aQXAIJ.r8SpOuaFDFr8GwrowiYoWAf/g.BAt4O', // 12341234
+    password: '$2b$10$V9AW4owT85BwxeFXCQGL/ukqeR9mqgVqsmbuReWbfbbep3QrvyL5q', // 12341234
+
     name: 'Bob',
     email: 'bob@gmail.com',
     id: 1,
   },
   {
     username: 'ellie',
-    password: '$2b$10$62f8UNj4knYmR95aQXAIJ.r8SpOuaFDFr8GwrowiYoWAf/g.BAt4O', // 12341234
+    password: '$2b$10$V9AW4owT85BwxeFXCQGL/ukqeR9mqgVqsmbuReWbfbbep3QrvyL5q', // 12341234
     name: 'Ellie',
     email: 'elliegmail.com',
     id: 2,
